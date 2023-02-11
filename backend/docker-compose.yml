@@ -1,0 +1,18 @@
+version: '3'
+services:
+  user-service-hack:
+    image: user-service-hack
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: ser-service-hack
+    ports:
+      - "3000:3000"
+    depends_on:
+      -   mongo-container
+
+  mongo-container:
+    image: mongo
+    container_name: mongo-user-container
+    ports:
+      - "27017:27017"
