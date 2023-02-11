@@ -6,7 +6,7 @@ const axios = require("axios");
 function getAsin(searchTerm) {
   // set up the request parameters
   const params = {
-    api_key: "9466D2E71F5F4EC3B3117A472B206313",
+    api_key: "ECB25C6797814615883AC7556BCB4AF1",
     type: "search",
     amazon_domain: "amazon.ca",
     search_term: searchTerm,
@@ -42,7 +42,7 @@ function getAsin(searchTerm) {
 
 function getReviews(sin) {
   const params = {
-    api_key: "4A2AE002C15F4517BB92F35A8B409ADC",
+    api_key: "ECB25C6797814615883AC7556BCB4AF1",
     amazon_domain: "amazon.ca",
     asin: sin,
     type: "product",
@@ -58,6 +58,7 @@ function getReviews(sin) {
       //prints the reviews for now
       for (let i = 0; i < res.product.top_reviews.length; i++) {
         console.log(res.product.top_reviews[i].body);
+        console.log("\n");
       }
     })
     .catch((error) => {
