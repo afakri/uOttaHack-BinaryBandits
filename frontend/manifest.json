@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "Placeholder Name",
+  "version": "1.0",
+  "description": "Predict the success of a new listing Etsy by taking reviews of similar products and comparing their success."
+}
