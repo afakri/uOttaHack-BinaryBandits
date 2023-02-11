@@ -5,5 +5,11 @@
   "description": "Predict the success of a new listing Etsy by taking reviews of similar products and comparing their success.",
   "action": {
     "default_popup": "frontend/main.html"
-  }
+  },
+  "icons": {
+    "58": "frontend/images/icon-58.png"
+  },
+  "permissions": [
+    "tabs"
+  ]
 }
