@@ -19,9 +19,10 @@ async function getAllUsers() {
   for (let i = 1; i <= list.length; i++) {
     list[i - 1]["ranking"] = i;
   }
+  return list;
 }
 app.get("/users", async (req, res) => {
-  const list = getAllUsers();
+  const list = await getAllUsers();
   res.send(list);
 });
 
@@ -43,7 +44,7 @@ app.post("/updatestepcount", async (req, res) => {
   const data = snapshot.data();
   data.numberOfSteps = req.body.numberOfSteps;
   await User.doc(req.body.id).update(data);
-  const list = getAllUsers();
+  const list = await getAllUsers();
   solace.publishMessage("stepupdate", JSON.stringify(list));
   res.send(list);
 });
