@@ -1,4 +1,5 @@
 const express = require("express");
+const solace = require("./App");
 const cors = require("cors");
 const User = require("./config");
 const firebase = require("firebase");
@@ -6,16 +7,21 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+solace.initialize();
 //get all users
 //Sort users by steps walked
 //Add ranking
-app.get("/users", async (req, res) => {
+
+async function getAllUsers() {
   const snapshot = await User.get();
   const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   list.sort((a, b) => parseInt(b.numberOfSteps) - parseInt(a.numberOfSteps));
   for (let i = 1; i <= list.length; i++) {
     list[i - 1]["ranking"] = i;
   }
+}
+app.get("/users", async (req, res) => {
+  const list = getAllUsers();
   res.send(list);
 });
 
@@ -37,7 +43,9 @@ app.post("/updatestepcount", async (req, res) => {
   const data = snapshot.data();
   data.numberOfSteps = req.body.numberOfSteps;
   await User.doc(req.body.id).update(data);
-  res.send({ msg: "Updated" });
+  const list = getAllUsers();
+  solace.publishMessage("stepupdate", JSON.stringify(list));
+  res.send(list);
 });
 
 app.post("/updateuser", async (req, res) => {
